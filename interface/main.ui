@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>672</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::NoContextMenu</enum>
+  </property>
+  <property name="windowTitle">
+   <string>IMVU CFL Converter &amp; Reader</string>
+  </property>
+  <property name="animated">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QListWidget" name="cflFilesList">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>671</width>
+      <height>371</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>672</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuOpen_CFL">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionOpen_CFL"/>
+    <addaction name="separator"/>
+    <addaction name="actionQuit"/>
+   </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionExtract_All"/>
+    <addaction name="actionConvert_to_CHKN"/>
+   </widget>
+   <addaction name="menuOpen_CFL"/>
+   <addaction name="menuTools"/>
+  </widget>
+  <action name="actionOpen_CFL">
+   <property name="text">
+    <string>Open CFL</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="text">
+    <string>Quit</string>
+   </property>
+  </action>
+  <action name="actionExtract_All">
+   <property name="text">
+    <string>Extract All</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+E</string>
+   </property>
+  </action>
+  <action name="actionConvert_to_CHKN">
+   <property name="text">
+    <string>Convert to CHKN</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+C</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
