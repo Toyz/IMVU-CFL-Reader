@@ -12,6 +12,7 @@ def run():
         print "Converting: " + name
         data = cfl.getContents(name)
         chkn.writestr(name, data)
+        open('output/raw/' + name, 'wb').write(data)
 
     print "Saved to 'output/1.chkn'"
     chkn.close()
