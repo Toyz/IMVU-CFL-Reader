@@ -1,5 +1,3 @@
-from imvu.chkn.ChknFile import ChknFile
-
 __author__ = 'Toyz'
 
 import os
@@ -7,6 +5,8 @@ import sys
 from PyQt4.QtGui import *
 from PyQt4 import QtCore, QtGui, uic
 from imvu.cfl.CFL import CFL
+from imvu.chkn.ChknFile import ChknFile
+
 
 form_class = uic.loadUiType("interface/main.ui")[0]
 
