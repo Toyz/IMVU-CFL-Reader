@@ -1,9 +1,8 @@
+__author__ = 'Toyz'
+
 import os
 import sys
 from Tools.Utils import Utils
-
-__author__ = 'Toyz'
-
 from imvu.cfl.CFL import CFL
 from imvu.chkn import ChknFile
 
