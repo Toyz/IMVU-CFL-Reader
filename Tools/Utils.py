@@ -4,7 +4,7 @@ __author__ = 'Toyz'
 import struct
 import pylzma
 
-class InvalidCFLError(object):
+class InvalidCFLError(Exception):
     pass
 
 CFLCOMPRESS_NONE = 0
