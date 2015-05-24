@@ -4,10 +4,8 @@ __author__ = 'Toyz'
 import struct
 import contextlib
 import imvu.cfl
-from Tools.Utils import Utils
+from Tools.Utils import Utils, InvalidCFLError
 
-class InvalidCFLError(Exception):
-    pass
 
 def loadResource(f):
     compressedSize = Utils.readInt(f)
