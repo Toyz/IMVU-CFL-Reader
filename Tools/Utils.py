@@ -1,17 +1,18 @@
-
 __author__ = 'Toyz'
 
 import struct
 import pylzma
 
+
 class InvalidCFLError(Exception):
     pass
+
 
 CFLCOMPRESS_NONE = 0
 CFLCOMPRESS_LZMA = 4
 
-class Utils:
 
+class Utils:
     def __init__(self):
         pass
 
@@ -41,3 +42,8 @@ class Utils:
                 raise InvalidCFLError(e)
         else:
             raise InvalidCFLError('Unsupported flag %r' % (flag,))
+
+    @staticmethod
+    def make_folder(filename):
+        if not os.path.exists(os.path.dirname(filename)):
+            os.makedirs(os.path.dirname(filename))
