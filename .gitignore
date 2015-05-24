@@ -20,6 +20,8 @@ $RECYCLE.BIN/
 
 #python
 *.pyc
+dist
+build
 
 #imvu
 *.chkn
