@@ -2,40 +2,16 @@ __author__ = 'Toyz'
 
 
 import struct
-import pylzma
 import contextlib
 import imvu.cfl
-CFLCOMPRESS_NONE = 0
-CFLCOMPRESS_LZMA = 4
+from Tools.Utils import Utils
 
 class InvalidCFLError(Exception):
     pass
 
-
-def decompress(flag, compressed):
-    if flag == CFLCOMPRESS_NONE:
-        return compressed
-    if flag == CFLCOMPRESS_LZMA:
-        try:
-            return pylzma.decompress(compressed)
-        except (TypeError, ValueError) as e:
-            raise InvalidCFLError(e)
-
-    else:
-        raise InvalidCFLError('Unsupported flag %r' % (flag,))
-
-
-def readInt(f):
-    try:
-        return struct.unpack('<I', f.read(4))[0]
-    except struct.error:
-        raise InvalidCFLError
-
-
 def loadResource(f):
-    compressedSize = readInt(f)
+    compressedSize = Utils.readInt(f)
     return f.read(compressedSize)
-
 
 class CFL(object):
 
@@ -46,9 +22,9 @@ class CFL(object):
             if header not in ('CFL3', 'DFL3'):
                 raise InvalidCFLError(path)
             supportsContentHash = header == 'DFL3'
-            f.seek(readInt(f))
-            directoryCompression = readInt(f)
-            directory = decompress(directoryCompression, loadResource(f))
+            f.seek(Utils.readInt(f))
+            directoryCompression = Utils.readInt(f)
+            directory = Utils.decompress(directoryCompression, loadResource(f))
             self.files = []
             self.__entries = {}
             while directory:
@@ -77,7 +53,7 @@ class CFL(object):
 
         with self.__openCFL() as f:
             f.seek(entry['offset'])
-            return decompress(entry['compression'], loadResource(f))
+            return  Utils.decompress(entry['compression'], loadResource(f))
 
     def getFileSize(self, entryName):
         return self.__entries[entryName]['fileSize']
@@ -86,7 +62,7 @@ class CFL(object):
         entry = self.__entries[entryName]
         with self.__openCFL() as f:
             f.seek(entry['offset'])
-            return readInt(f)
+            return Utils.readInt(f)
 
     @contextlib.contextmanager
     def __openCFL(self):

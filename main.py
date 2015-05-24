@@ -1,10 +1,10 @@
 __author__ = 'Toyz'
 
-from imvu.cfl import CFL, CFLMaker
+from imvu.cfl.CFL import CFL
 from imvu.chkn import ChknFile
 
 def run():
-    cfl = CFL.CFL("1.cfl")
+    cfl = CFL("1.cfl")
     chkn = ChknFile.ChknFile(open("output/1.chkn", "wb"), "w")
 
     files = {}
@@ -13,6 +13,7 @@ def run():
         data = cfl.getContents(name)
         chkn.writestr(name, data)
 
+    print "Saved to 'output/1.chkn'"
     chkn.close()
 
 if __name__ == '__main__':

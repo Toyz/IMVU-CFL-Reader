@@ -1,15 +1,7 @@
 __author__ = 'Toyz'
 
 import struct
-import pylzma
-from CFL import CFLCOMPRESS_NONE, CFLCOMPRESS_LZMA
-
-def compress(flag, plaintext):
-    if flag == CFLCOMPRESS_NONE:
-        return plaintext
-    if flag == CFLCOMPRESS_LZMA:
-        return pylzma.compress(plaintext)
-    raise NotImplementedError('Unsupported flag %r' % (flag,))
+from Tools.Utils import Utils, CFLCOMPRESS_LZMA
 
 
 class CFLMaker(object):
@@ -25,7 +17,7 @@ class CFLMaker(object):
 
     def store(self, entryName, entryData):
         unicode(entryName)
-        cdata = compress(CFLCOMPRESS_LZMA, entryData)
+        cdata = Utils.compress(CFLCOMPRESS_LZMA, entryData)
         self.__writeInt(len(cdata))
         self.__file.write(cdata)
         self.__entries[entryName] = dict(offset=self.__curOffset, compression=CFLCOMPRESS_LZMA, fileSize=len(entryData))
@@ -41,7 +33,7 @@ class CFLMaker(object):
         directoryData = ''.join(entryDatas)
         dirSize = len(directoryData)
         directoryCompression = CFLCOMPRESS_LZMA
-        cdata = compress(directoryCompression, directoryData)
+        cdata = Utils.compress(directoryCompression, directoryData)
         dirOffset = self.__file.tell()
         self.__writeInt(directoryCompression)
         self.__writeInt(len(cdata))
