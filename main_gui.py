@@ -13,6 +13,7 @@ form_class = uic.loadUiType("interface/main.ui")[0]
 class MyWindowClass(QtGui.QMainWindow, form_class):
     def __init__(self, parent=None):
         QtGui.QMainWindow.__init__(self, parent)
+        self.files = {}
         self.setupUi(self)
         self.actionOpen_CFL.triggered.connect(self.OpenCFLClicked)
         self.actionConvert_to_CHKN.triggered.connect(self.convertToCHKNClicked)
