@@ -2,9 +2,11 @@ __author__ = 'Toyz'
 
 import os
 import sys
-from Tools.Utils import Utils
-from imvu.cfl.CFL import CFL
-from imvu.chkn import ChknFile
+
+from handlers.tools import Utils
+from handlers.cfl.CFL import CFL
+from handlers.chkn import ChknFile
+
 
 def run(cflfile):
     cfl = CFL(cflfile)

@@ -1,14 +1,18 @@
+from handlers.cfl.CFLMaker import CFLMaker
+
 __author__ = 'Toyz'
 
 import os
 import sys
 from PyQt4.QtGui import *
 from PyQt4 import QtCore, QtGui, uic
-from imvu.cfl.CFL import CFL
-from imvu.chkn.ChknFile import ChknFile
+from handlers.cfl.CFL import CFL
+from handlers.chkn.ChknFile import ChknFile
+from handlers.tools.temploader import TempLoad
 
+loader = TempLoad("ui.cfl")
 
-form_class = uic.loadUiType("interface/main.ui")[0]
+form_class = uic.loadUiType(loader.GetFile("main.ui"))[0]
 
 class MyWindowClass(QtGui.QMainWindow, form_class):
     def __init__(self, parent=None):
@@ -18,6 +22,40 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         self.actionOpen_CFL.triggered.connect(self.OpenCFLClicked)
         self.actionConvert_to_CHKN.triggered.connect(self.convertToCHKNClicked)
         self.actionExtract_All.triggered.connect(self.extractAllFileClicked)
+        self.actionCreate_CFL.triggered.connect(self.createCFLFromFolder)
+        self.actionQuit.triggered.connect(self.Close)
+
+    def Close(self):
+        loader.Clean()
+        sys.exit()
+
+    def createCFLFromFolder(self):
+        file = str(QtGui.QFileDialog.getExistingDirectory(self, "Select Directory to make CFL"))
+
+        if len(file) <= 0:
+            return
+
+        cflFile = str(QtGui.QFileDialog.getSaveFileName(self, 'Save CFL To', './', "CFL File (*.cfl)"))
+
+        if len(cflFile) <= 0:
+            return
+
+        if os.path.isfile(cflFile):
+            os.unlink(cflFile)
+
+        cflMaker = CFLMaker(cflFile)
+
+        for i in os.listdir(file):
+            if os.path.isfile(os.path.join(file, i)):
+                f = open(os.path.join(file, i), "rb")
+                cflMaker.store(i, str(f.read()))
+                f.close()
+
+        cflMaker.finish()
+
+        QMessageBox.information(self,
+                                "Information",
+                                "Save CFL file saved to \n" + cflFile)
 
     def extractAllFileClicked(self):
         if len(self.files) <= 0:

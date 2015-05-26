@@ -14,7 +14,7 @@
    <enum>Qt::NoContextMenu</enum>
   </property>
   <property name="windowTitle">
-   <string>IMVU CFL Converter &amp; Reader</string>
+   <string>CFL Creator &amp; Converter</string>
   </property>
   <property name="animated">
    <bool>true</bool>
@@ -48,6 +48,7 @@
      <string>File</string>
     </property>
     <addaction name="actionOpen_CFL"/>
+    <addaction name="actionCreate_CFL"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
@@ -88,6 +89,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+C</string>
+   </property>
+  </action>
+  <action name="actionCreate_CFL">
+   <property name="text">
+    <string>Create CFL</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
    </property>
   </action>
  </widget>

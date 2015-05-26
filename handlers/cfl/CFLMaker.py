@@ -1,7 +1,8 @@
+from handlers.tools import Utils
+
 __author__ = 'Toyz'
 
 import struct
-from Tools.Utils import Utils, CFLCOMPRESS_LZMA
 
 
 class CFLMaker(object):
@@ -17,10 +18,10 @@ class CFLMaker(object):
 
     def store(self, entryName, entryData):
         unicode(entryName)
-        cdata = Utils.compress(CFLCOMPRESS_LZMA, entryData)
+        cdata = Utils.Utils.compress(Utils.CFLCOMPRESS_LZMA, entryData)
         self.__writeInt(len(cdata))
         self.__file.write(cdata)
-        self.__entries[entryName] = dict(offset=self.__curOffset, compression=CFLCOMPRESS_LZMA, fileSize=len(entryData))
+        self.__entries[entryName] = dict(offset=self.__curOffset, compression=Utils.CFLCOMPRESS_LZMA, fileSize=len(entryData))
         self.__curOffset = self.__file.tell()
 
     def finish(self):
@@ -32,8 +33,8 @@ class CFLMaker(object):
 
         directoryData = ''.join(entryDatas)
         dirSize = len(directoryData)
-        directoryCompression = CFLCOMPRESS_LZMA
-        cdata = Utils.compress(directoryCompression, directoryData)
+        directoryCompression = Utils.CFLCOMPRESS_LZMA
+        cdata = Utils.Utils.compress(directoryCompression, directoryData)
         dirOffset = self.__file.tell()
         self.__writeInt(directoryCompression)
         self.__writeInt(len(cdata))

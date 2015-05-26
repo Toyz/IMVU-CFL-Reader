@@ -1,14 +1,15 @@
 __author__ = 'Toyz'
 
-
 import struct
 import contextlib
-import imvu.cfl
-from Tools.Utils import Utils, InvalidCFLError
+
+import handlers.cfl
+from handlers.tools.Utils import InvalidCFLError
+from handlers.tools import Utils
 
 
 def loadResource(f):
-    compressedSize = Utils.readInt(f)
+    compressedSize = Utils.Utils.readInt(f)
     return f.read(compressedSize)
 
 class CFL(object):
@@ -20,9 +21,9 @@ class CFL(object):
             if header not in ('CFL3', 'DFL3'):
                 raise InvalidCFLError(path)
             supportsContentHash = header == 'DFL3'
-            f.seek(Utils.readInt(f))
-            directoryCompression = Utils.readInt(f)
-            directory = Utils.decompress(directoryCompression, loadResource(f))
+            f.seek(Utils.Utils.readInt(f))
+            directoryCompression = Utils.Utils.readInt(f)
+            directory = Utils.Utils.decompress(directoryCompression, loadResource(f))
             self.files = []
             self.__entries = {}
             while directory:
@@ -47,11 +48,11 @@ class CFL(object):
         try:
             entry = self.__entries[entryName]
         except KeyError:
-            raise imvu.cfl.CflMissingAssetsError(entryName)
+            raise handlers.cfl.CflMissingAssetsError(entryName)
 
         with self.__openCFL() as f:
             f.seek(entry['offset'])
-            return  Utils.decompress(entry['compression'], loadResource(f))
+            return Utils.Utils.decompress(entry['compression'], loadResource(f))
 
     def getFileSize(self, entryName):
         return self.__entries[entryName]['fileSize']
@@ -60,7 +61,7 @@ class CFL(object):
         entry = self.__entries[entryName]
         with self.__openCFL() as f:
             f.seek(entry['offset'])
-            return Utils.readInt(f)
+            return Utils.Utils.readInt(f)
 
     @contextlib.contextmanager
     def __openCFL(self):
