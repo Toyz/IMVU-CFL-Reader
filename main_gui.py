@@ -24,14 +24,15 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         self.__imageFormats = {".jpg", ".png", ".gif", ".tif"}
         self.__imageIcon = QIcon(loader.getimage("image"))
         self.__fileIcon = QIcon(loader.getimage("file"))
+
         self.actionOpen.setIcon(QIcon(loader.getimage("open")))
         self.actionNew.setIcon(QIcon(loader.getimage("new")))
         self.actionExtract.setIcon(QIcon(loader.getfile("extract.png")))
-
         self.actionOpen_CFL.setIcon(QIcon(loader.getimage("open")))
         self.actionExtract_All.setIcon(QIcon(loader.getimage("extract")))
         self.actionCreate_CFL.setIcon(QIcon(loader.getimage("new")))
         self.actionQuit.setIcon(QIcon(loader.getimage("close")))
+        self.actionConvert_to_CHKN.setIcon(QIcon(loader.getimage("convert")))
         #open buttons
         self.actionOpen_CFL.triggered.connect(self.OpenCFLClicked)
         self.actionOpen.triggered.connect(self.OpenCFLClicked)
@@ -74,7 +75,7 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
 
         cflMaker.finish()
 
-        self.openCFL(cflfile)
+        self.__openCFL(cflfile)
         QMessageBox.information(self,
                                 "Information",
                                 "Save CFL file saved to \n" + cflfile)
@@ -125,9 +126,9 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         cflfile = str(cflfile)
 
         self.cflFilesList.clear()
-        self.openCFL(cflfile)
+        self.__openCFL(cflfile)
 
-    def openCFL(self, cflfile):
+    def __openCFL(self, cflfile):
         name = os.path.splitext(os.path.basename(cflfile))
         self.setWindowTitle("CFL Creator & Converter [" + name[0] + name[1] + "]")
         cfl = CFL(cflfile)
@@ -153,6 +154,8 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
             cSize.setTextAlignment(4 | 80)
             cSize.setFlags(QtCore.Qt.ItemIsEnabled)
             self.cflFilesList.setItem(index, 1, cSize)
+            self.files[name] = cfl.getContents(name)
+
             index += 1
 
         labels = QtCore.QStringList()
