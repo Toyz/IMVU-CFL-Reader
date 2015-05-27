@@ -9,9 +9,13 @@ The tool is super basic right now and requires a little bit of python understand
 ##Usage
 <hr />
 How to use: <Br />
-**python main.py *cflfile*** ( EX: python main.py test.cfl )
+Just run the **main_gui.py** in console
 
-*Note CFLFile is the path to the give CFL you wish to convert to CHKN*
+##How to build
+<hr />
+To build you need the following requirements:
+- pylzma from https://pypi.python.org/pypi/pylzma 
+- pyqt from http://www.riverbankcomputing.com/software/pyqt/download
 
 ## Credits
 <hr />
