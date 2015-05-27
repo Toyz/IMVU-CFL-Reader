@@ -128,7 +128,6 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
 
     def openCFL(self, cflfile):
         cfl = CFL(cflfile)
-        head, tail = os.path.split(cflfile)
 
         self.files = {}
         index = 0
