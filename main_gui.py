@@ -15,12 +15,14 @@ loader = TempLoad("ui.cfl")
 
 form_class = uic.loadUiType(loader.getfile("main.ui"))[0]
 
+
 class MyWindowClass(QtGui.QMainWindow, form_class):
     def __init__(self, parent=None):
+        self.__selectedIndex = -1
         QtGui.QMainWindow.__init__(self, parent)
         self.files = {}
         self.setupUi(self)
-        #set up images
+        # set up images
         self.__imageFormats = {".jpg", ".png", ".gif", ".tif"}
         self.__imageIcon = QIcon(loader.getimage("image"))
         self.__fileIcon = QIcon(loader.getimage("file"))
@@ -30,22 +32,55 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         self.actionExtract.setIcon(QIcon(loader.getfile("extract.png")))
         self.actionOpen_CFL.setIcon(QIcon(loader.getimage("open")))
         self.actionExtract_All.setIcon(QIcon(loader.getimage("extract")))
+        self.actionExtract_Single_File.setIcon(QIcon(loader.getimage("extract")))
         self.actionCreate_CFL.setIcon(QIcon(loader.getimage("new")))
         self.actionQuit.setIcon(QIcon(loader.getimage("close")))
         self.actionConvert_to_CHKN.setIcon(QIcon(loader.getimage("convert")))
-        #open buttons
+        # open buttons
         self.actionOpen_CFL.triggered.connect(self.OpenCFLClicked)
         self.actionOpen.triggered.connect(self.OpenCFLClicked)
-        #convert buttons
+        # convert buttons
         self.actionConvert_to_CHKN.triggered.connect(self.convertToCHKNClicked)
-        #extract buttons
+        # extract buttons
         self.actionExtract_All.triggered.connect(self.extractAllFileClicked)
         self.actionExtract.triggered.connect(self.extractAllFileClicked)
-        #new Buttons
+        self.actionExtract_Single_File.triggered.connect(self.extractOneFile)
+        # new Buttons
         self.actionCreate_CFL.triggered.connect(self.createCFLFromFolder)
         self.actionNew.triggered.connect(self.createCFLFromFolder)
-        #close
+        # close
         self.actionQuit.triggered.connect(self.Close)
+
+        # table events
+        self.cflFilesList.cellClicked.connect(self.slotItemClicked)
+
+    def extractOneFile(self):
+        if self.__selectedIndex <= -1:
+            return
+
+        key = self.files.keys()[self.__selectedIndex]
+
+        data = self.files[key]
+
+        filesavelocaiton = str(QtGui.QFileDialog.getSaveFileName(self, 'Save File To', './' + key))
+        if len(filesavelocaiton) <= 0:
+            return
+
+        f = open(filesavelocaiton, "wb")
+        f.write(data)
+        f.close()
+
+        self.__selectedIndex = -1
+        QMessageBox.information(self,
+                                "Information",
+                                "Saved file to \n" + filesavelocaiton)
+
+    def slotItemClicked(self, item, item2):
+        if len(self.files) <= 0:
+            return
+
+        self.__selectedIndex = item
+        # print self.files.keys()[0]
 
     def Close(self):
         loader.clean()
@@ -135,6 +170,7 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
 
         self.files = {}
         index = 0
+        self.__selectedIndex = -1
         self.cflFilesList.setRowCount(len(cfl.getEntryNames()))
         for name in cfl.getEntryNames():
             fileName, fileExtension = os.path.splitext(name)
@@ -164,7 +200,6 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         self.cflFilesList.setHorizontalHeaderLabels(labels)
         self.cflFilesList.resizeColumnsToContents()
         self.cflFilesList.resizeRowsToContents()
-
 
 
 if __name__ == '__main__':

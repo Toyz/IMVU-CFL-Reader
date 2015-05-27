@@ -57,7 +57,10 @@
      <enum>Qt::ScrollBarAlwaysOn</enum>
     </property>
     <property name="selectionMode">
-     <enum>QAbstractItemView::SingleSelection</enum>
+     <enum>QAbstractItemView::ExtendedSelection</enum>
+    </property>
+    <property name="selectionBehavior">
+     <enum>QAbstractItemView::SelectRows</enum>
     </property>
     <property name="textElideMode">
      <enum>Qt::ElideNone</enum>
@@ -117,6 +120,8 @@
     <property name="title">
      <string>Tools</string>
     </property>
+    <addaction name="actionExtract_Single_File"/>
+    <addaction name="separator"/>
     <addaction name="actionExtract_All"/>
     <addaction name="actionConvert_to_CHKN"/>
    </widget>
@@ -189,6 +194,11 @@
   <action name="actionExtract">
    <property name="text">
     <string>Extract All Files</string>
+   </property>
+  </action>
+  <action name="actionExtract_Single_File">
+   <property name="text">
+    <string>Extract Single File</string>
    </property>
   </action>
  </widget>
