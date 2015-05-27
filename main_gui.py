@@ -27,12 +27,13 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         self.__imageIcon = QIcon(loader.getimage("image"))
         self.__fileIcon = QIcon(loader.getimage("file"))
 
+        self.actionExtract_Single_File.setIcon(QIcon(loader.getimage("singleEx")))
+        self.actionExtractSingle.setIcon(QIcon(loader.getimage("singleEx")))
         self.actionOpen.setIcon(QIcon(loader.getimage("open")))
         self.actionNew.setIcon(QIcon(loader.getimage("new")))
-        self.actionExtract.setIcon(QIcon(loader.getfile("extract.png")))
+        self.actionExtract.setIcon(QIcon(loader.getimage("extract")))
         self.actionOpen_CFL.setIcon(QIcon(loader.getimage("open")))
         self.actionExtract_All.setIcon(QIcon(loader.getimage("extract")))
-        self.actionExtract_Single_File.setIcon(QIcon(loader.getimage("extract")))
         self.actionCreate_CFL.setIcon(QIcon(loader.getimage("new")))
         self.actionQuit.setIcon(QIcon(loader.getimage("close")))
         self.actionConvert_to_CHKN.setIcon(QIcon(loader.getimage("convert")))
@@ -45,6 +46,7 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         self.actionExtract_All.triggered.connect(self.extractAllFileClicked)
         self.actionExtract.triggered.connect(self.extractAllFileClicked)
         self.actionExtract_Single_File.triggered.connect(self.extractOneFile)
+        self.actionExtractSingle.triggered.connect(self.extractOneFile)
         # new Buttons
         self.actionCreate_CFL.triggered.connect(self.createCFLFromFolder)
         self.actionNew.triggered.connect(self.createCFLFromFolder)

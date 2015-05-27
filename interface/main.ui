@@ -140,6 +140,7 @@
    </attribute>
    <addaction name="actionOpen"/>
    <addaction name="separator"/>
+   <addaction name="actionExtractSingle"/>
    <addaction name="actionExtract"/>
    <addaction name="separator"/>
    <addaction name="actionNew"/>
@@ -197,6 +198,11 @@
    </property>
   </action>
   <action name="actionExtract_Single_File">
+   <property name="text">
+    <string>Extract Single File</string>
+   </property>
+  </action>
+  <action name="actionExtractSingle">
    <property name="text">
     <string>Extract Single File</string>
    </property>
