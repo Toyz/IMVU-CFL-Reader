@@ -13,21 +13,37 @@ from handlers.tools.temploader import TempLoad
 
 loader = TempLoad("ui.cfl")
 
-form_class = uic.loadUiType(loader.GetFile("main.ui"))[0]
+form_class = uic.loadUiType(loader.getfile("main.ui"))[0]
 
 class MyWindowClass(QtGui.QMainWindow, form_class):
     def __init__(self, parent=None):
         QtGui.QMainWindow.__init__(self, parent)
         self.files = {}
         self.setupUi(self)
+        #set up images
+        self.actionOpen.setIcon(QIcon(loader.getfile("open.png")))
+        self.actionNew.setIcon(QIcon(loader.getfile("new.png")))
+        self.actionExtract.setIcon(QIcon(loader.getfile("extract.png")))
+
+        self.actionOpen_CFL.setIcon(QIcon(loader.getfile("open.png")))
+        self.actionExtract_All.setIcon(QIcon(loader.getfile("extract.png")))
+        self.actionCreate_CFL.setIcon(QIcon(loader.getfile("new.png")))
+        #open buttons
         self.actionOpen_CFL.triggered.connect(self.OpenCFLClicked)
+        self.actionOpen.triggered.connect(self.OpenCFLClicked)
+        #convert buttons
         self.actionConvert_to_CHKN.triggered.connect(self.convertToCHKNClicked)
+        #extract buttons
         self.actionExtract_All.triggered.connect(self.extractAllFileClicked)
+        self.actionExtract.triggered.connect(self.extractAllFileClicked)
+        #new Buttons
         self.actionCreate_CFL.triggered.connect(self.createCFLFromFolder)
+        self.actionNew.triggered.connect(self.createCFLFromFolder)
+        #close
         self.actionQuit.triggered.connect(self.Close)
 
     def Close(self):
-        loader.Clean()
+        loader.clean()
         sys.exit()
 
     def createCFLFromFolder(self):
@@ -36,15 +52,15 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         if len(file) <= 0:
             return
 
-        cflFile = str(QtGui.QFileDialog.getSaveFileName(self, 'Save CFL To', './', "CFL File (*.cfl)"))
+        cflfile = str(QtGui.QFileDialog.getSaveFileName(self, 'Save CFL To', './', "CFL File (*.cfl)"))
 
-        if len(cflFile) <= 0:
+        if len(cflfile) <= 0:
             return
 
-        if os.path.isfile(cflFile):
-            os.unlink(cflFile)
+        if os.path.isfile(cflfile):
+            os.unlink(cflfile)
 
-        cflMaker = CFLMaker(cflFile)
+        cflMaker = CFLMaker(cflfile)
 
         for i in os.listdir(file):
             if os.path.isfile(os.path.join(file, i)):
@@ -54,9 +70,10 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
 
         cflMaker.finish()
 
+        self.openCFL(cflfile)
         QMessageBox.information(self,
                                 "Information",
-                                "Save CFL file saved to \n" + cflFile)
+                                "Save CFL file saved to \n" + cflfile)
 
     def extractAllFileClicked(self):
         if len(self.files) <= 0:
@@ -103,10 +120,13 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
 
         cflfile = str(cflfile)
 
+        self.cflFilesList.clear()
+        self.openCFL(cflfile)
+
+    def openCFL(self, cflfile):
         cfl = CFL(cflfile)
         head, tail = os.path.split(cflfile)
 
-        self.cflFilesList.clear()
         self.files = {}
         index = 0
         self.cflFilesList.setRowCount(len(cfl.getEntryNames()))
@@ -126,6 +146,8 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         self.cflFilesList.setHorizontalHeaderLabels(labels)
         self.cflFilesList.resizeColumnsToContents()
         self.cflFilesList.resizeRowsToContents()
+
+
 
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)

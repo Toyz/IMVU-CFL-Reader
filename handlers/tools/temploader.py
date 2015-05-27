@@ -5,13 +5,13 @@ import tempfile
 import os
 class TempLoad:
     def __init__(self, cfl, default="interface"):
-        if self.__doesEixst(cfl):
+        if self.__doesexist(cfl):
             self.__loaded = CFL(cfl)
         self.__tempFiles = {}
         self.__defaultFolder = default
 
-    def GetFile(self, cfl):
-        if self.__doesEixst(os.path.join(self.__defaultFolder, cfl)):
+    def getfile(self, cfl):
+        if self.__doesexist(os.path.join(self.__defaultFolder, cfl)):
             return os.path.join(self.__defaultFolder, cfl)
 
         if self.__tempFiles.has_key(cfl):
@@ -24,10 +24,10 @@ class TempLoad:
         self.__tempFiles[cfl] = f.name
         return f.name
 
-    def __doesEixst(self, cfl):
+    def __doesexist(self, cfl):
         return os.path.isfile(cfl)
 
-    def Clean(self):
+    def clean(self):
         for key, value in self.__tempFiles.iteritems():
             os.unlink(value)
 
