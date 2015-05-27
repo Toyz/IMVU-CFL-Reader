@@ -23,7 +23,6 @@ class CreateCFLThread(QtCore.QThread):
                 cflmaker.store(i, str(f.read()))
                 f.close()
                 self.emit(QtCore.SIGNAL("update(PyQt_PyObject)"), start)
-                print str(total) + " - " + str(start)
                 start += 1
 
         cflmaker.finish()
