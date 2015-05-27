@@ -1,6 +1,6 @@
 __author__ = 'Toyz'
 
-from PyQt4 import QtCore, QtGui, uic
+from PyQt4 import QtCore
 from handlers.cfl.CFLMaker import CFLMaker
 import os
 
@@ -18,7 +18,6 @@ class CreateCFLThread(QtCore.QThread):
         start = 1
         for i in os.listdir(self.file):
             if os.path.isfile(os.path.join(self.file, i)):
-                # self.__progressui.setText(i)
                 self.emit(QtCore.SIGNAL("setText(PyQt_PyObject)"), "Adding: " + i)
                 f = open(os.path.join(self.file, i), "rb")
                 cflmaker.store(i, str(f.read()))
@@ -33,6 +32,3 @@ class CreateCFLThread(QtCore.QThread):
         self.emit(QtCore.SIGNAL("sendMessage(PyQt_PyObject, PyQt_PyObject)"), "Information",
                   "Saved CFL file saved to \n" + self.cflfile)
         self.emit(QtCore.SIGNAL("setText(PyQt_PyObject)"), "Finished")
-        # QMessageBox.information(self,
-        #                        "Information",
-        #                        "Save CFL file saved to \n" + self.cflfile)
