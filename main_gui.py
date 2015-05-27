@@ -128,6 +128,8 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         self.openCFL(cflfile)
 
     def openCFL(self, cflfile):
+        name = os.path.splitext(os.path.basename(cflfile))
+        self.setWindowTitle("CFL Creator & Converter [" + name[0] + name[1] + "]")
         cfl = CFL(cflfile)
 
         self.files = {}
