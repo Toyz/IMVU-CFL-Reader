@@ -7,7 +7,7 @@ import os
 import sys
 from PyQt4.QtGui import *
 from PyQt4 import QtCore, QtGui, uic
-from handlers.cfl.CFL import CFL
+from handlers.cfl.CFLOpener import CFLMaker
 from handlers.chkn.ChknFile import ChknFile
 from handlers.tools.temploader import TempLoad
 
@@ -168,7 +168,7 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
     def __openCFL(self, cflfile):
         name = os.path.splitext(os.path.basename(cflfile))
         self.setWindowTitle("CFL Creator & Converter [" + name[0] + name[1] + "]")
-        cfl = CFL(cflfile)
+        cfl = CFLMaker(cflfile)
 
         self.files = {}
         index = 0

@@ -1,6 +1,6 @@
 __author__ = 'Toyz'
 
-from handlers.cfl.CFL import CFL
+from handlers.cfl.CFLOpener import CFLMaker
 import tempfile
 import os
 
@@ -8,7 +8,7 @@ import os
 class TempLoad:
     def __init__(self, cfl, default="interface"):
         if self.__doesexist(cfl):
-            self.__loaded = CFL(cfl)
+            self.__loaded = CFLMaker(cfl)
         self.__tempFiles = {}
         self.__defaultFolder = default
 
