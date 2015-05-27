@@ -22,16 +22,16 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         self.setupUi(self)
         #set up images
         self.__imageFormats = {".jpg", ".png", ".gif", ".tif"}
-        self.__imageIcon = QIcon(loader.getfile("image.png"))
-        self.__fileIcon = QIcon(loader.getfile("file.png"))
-        self.actionOpen.setIcon(QIcon(loader.getfile("open.png")))
-        self.actionNew.setIcon(QIcon(loader.getfile("new.png")))
+        self.__imageIcon = QIcon(loader.getimage("image"))
+        self.__fileIcon = QIcon(loader.getimage("file"))
+        self.actionOpen.setIcon(QIcon(loader.getimage("open")))
+        self.actionNew.setIcon(QIcon(loader.getimage("new")))
         self.actionExtract.setIcon(QIcon(loader.getfile("extract.png")))
 
-        self.actionOpen_CFL.setIcon(QIcon(loader.getfile("open.png")))
-        self.actionExtract_All.setIcon(QIcon(loader.getfile("extract.png")))
-        self.actionCreate_CFL.setIcon(QIcon(loader.getfile("new.png")))
-        self.actionQuit.setIcon(QIcon(loader.getfile("close.png")))
+        self.actionOpen_CFL.setIcon(QIcon(loader.getimage("open")))
+        self.actionExtract_All.setIcon(QIcon(loader.getimage("extract")))
+        self.actionCreate_CFL.setIcon(QIcon(loader.getimage("new")))
+        self.actionQuit.setIcon(QIcon(loader.getimage("close")))
         #open buttons
         self.actionOpen_CFL.triggered.connect(self.OpenCFLClicked)
         self.actionOpen.triggered.connect(self.OpenCFLClicked)

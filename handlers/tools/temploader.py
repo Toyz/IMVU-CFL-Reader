@@ -3,6 +3,8 @@ __author__ = 'Toyz'
 from handlers.cfl.CFL import CFL
 import tempfile
 import os
+
+
 class TempLoad:
     def __init__(self, cfl, default="interface"):
         if self.__doesexist(cfl):
@@ -24,10 +26,12 @@ class TempLoad:
         self.__tempFiles[cfl] = f.name
         return f.name
 
+    def getimage(self, image, ext=".png"):
+        return self.getfile(image + ext)
+
     def __doesexist(self, cfl):
         return os.path.isfile(cfl)
 
     def clean(self):
         for key, value in self.__tempFiles.iteritems():
             os.unlink(value)
-
