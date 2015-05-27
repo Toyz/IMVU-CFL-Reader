@@ -1,4 +1,5 @@
 from handlers.cfl.CFLMaker import CFLMaker
+from handlers.tools import Utils
 
 __author__ = 'Toyz'
 
@@ -107,10 +108,24 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
 
         self.cflFilesList.clear()
         self.files = {}
+        index = 0
+        self.cflFilesList.setRowCount(len(cfl.getEntryNames()))
         for name in cfl.getEntryNames():
-            item = QListWidgetItem(name)
-            self.cflFilesList.addItem(item)
-            self.files[name] = cfl.getContents(name)
+            cName = QTableWidgetItem(name)
+            cName.setFlags(QtCore.Qt.ItemIsEnabled)
+            self.cflFilesList.setItem(index, 0, cName)
+
+            cSize = QTableWidgetItem(Utils.Utils.sizeof_fmt(cfl.getFileSize(name)))
+            cSize.setFlags(QtCore.Qt.ItemIsEnabled)
+            self.cflFilesList.setItem(index, 1, cSize)
+            index += 1
+
+        labels = QtCore.QStringList()
+        labels.append('Filename')
+        labels.append('File size')
+        self.cflFilesList.setHorizontalHeaderLabels(labels)
+        self.cflFilesList.resizeColumnsToContents()
+        self.cflFilesList.resizeRowsToContents()
 
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)

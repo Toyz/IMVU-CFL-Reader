@@ -20,18 +20,37 @@
    <bool>true</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QListWidget" name="cflFilesList">
+   <widget class="QTableWidget" name="cflFilesList">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>-1</y>
+      <y>0</y>
       <width>671</width>
       <height>371</height>
      </rect>
     </property>
-    <property name="resizeMode">
-     <enum>QListView::Fixed</enum>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::SingleSelection</enum>
     </property>
+    <property name="textElideMode">
+     <enum>Qt::ElideNone</enum>
+    </property>
+    <property name="showGrid">
+     <bool>true</bool>
+    </property>
+    <attribute name="verticalHeaderVisible">
+     <bool>false</bool>
+    </attribute>
+    <column>
+     <property name="text">
+      <string>Filename</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>File Size</string>
+     </property>
+    </column>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
