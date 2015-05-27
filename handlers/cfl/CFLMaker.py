@@ -16,6 +16,9 @@ class CFLMaker(object):
         self.__writeInt(0)
         self.__curOffset = self.__file.tell()
 
+    def path(self):
+        return self.__path
+
     def store(self, entryName, entryData):
         unicode(entryName)
         cdata = Utils.Utils.compress(Utils.CFLCOMPRESS_LZMA, entryData)
