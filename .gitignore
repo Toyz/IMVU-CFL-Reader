@@ -53,3 +53,5 @@ build
 Network Trash Folder
 Temporary Items
 .apdisk
+interface/built/ui.cfl
+*.cfl
