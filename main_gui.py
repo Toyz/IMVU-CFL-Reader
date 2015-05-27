@@ -31,6 +31,7 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         self.actionOpen_CFL.setIcon(QIcon(loader.getfile("open.png")))
         self.actionExtract_All.setIcon(QIcon(loader.getfile("extract.png")))
         self.actionCreate_CFL.setIcon(QIcon(loader.getfile("new.png")))
+        self.actionQuit.setIcon(QIcon(loader.getfile("close.png")))
         #open buttons
         self.actionOpen_CFL.triggered.connect(self.OpenCFLClicked)
         self.actionOpen.triggered.connect(self.OpenCFLClicked)
