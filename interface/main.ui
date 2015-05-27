@@ -125,8 +125,16 @@
     <addaction name="actionExtract_All"/>
     <addaction name="actionConvert_to_CHKN"/>
    </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionSource_Code_Github"/>
+    <addaction name="actionToyz_IMVU"/>
+   </widget>
    <addaction name="menuOpen_CFL"/>
    <addaction name="menuTools"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
@@ -205,6 +213,16 @@
   <action name="actionExtractSingle">
    <property name="text">
     <string>Extract Single File</string>
+   </property>
+  </action>
+  <action name="actionSource_Code_Github">
+   <property name="text">
+    <string>Source Code (Github)</string>
+   </property>
+  </action>
+  <action name="actionToyz_IMVU">
+   <property name="text">
+    <string>Toyz@IMVU</string>
    </property>
   </action>
  </widget>

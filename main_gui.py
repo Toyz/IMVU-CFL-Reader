@@ -10,6 +10,7 @@ from PyQt4 import QtCore, QtGui, uic
 from handlers.cfl.CFLOpener import CFLMaker
 from handlers.chkn.ChknFile import ChknFile
 from handlers.tools.temploader import TempLoad
+import webbrowser
 
 loader = TempLoad("ui.cfl")
 
@@ -52,9 +53,18 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         self.actionNew.triggered.connect(self.createCFLFromFolder)
         # close
         self.actionQuit.triggered.connect(self.Close)
+        #help
+        self.actionSource_Code_Github.triggered.connect(self.gotogithub)
+        self.actionToyz_IMVU.triggered.connect(self.gotoimvu)
 
         # table events
         self.cflFilesList.cellClicked.connect(self.slotItemClicked)
+
+    def gotogithub(self):
+        webbrowser.open("https://github.com/Toyz/IMVU-CFL-Reader")
+
+    def gotoimvu(self):
+        webbrowser.open("http://avatars.imvu.com/Toyz")
 
     def extractOneFile(self):
         if self.__selectedIndex <= -1:
