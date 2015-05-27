@@ -15,6 +15,9 @@ class TempLoad:
         if self.__doesEixst(os.path.join(DEFAULT_FOLDER, cfl)):
             return os.path.join(DEFAULT_FOLDER, cfl)
 
+        if self.__tempFiles.has_key(cfl):
+            return self.__tempFiles[cfl]
+        
         data = self.__loaded.getContents(cfl)
         f = tempfile.NamedTemporaryFile(delete=False)
         f.write(data)
