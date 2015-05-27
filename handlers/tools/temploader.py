@@ -1,16 +1,20 @@
+from handlers.tools.singleton import singleton
+
 __author__ = 'Toyz'
 
-from handlers.cfl.CFLOpener import CFLMaker
+from handlers.cfl.CFLOpener import CFLOpener
 import tempfile
 import os
 
-
+@singleton
 class TempLoad:
     def __init__(self, cfl, default="interface"):
+
         if self.__doesexist(cfl):
-            self.__loaded = CFLMaker(cfl)
+            self.__loaded = CFLOpener(cfl)
         self.__tempFiles = {}
         self.__defaultFolder = default
+        print "Loaded temp handler"
 
     def getfile(self, cfl):
         if self.__doesexist(os.path.join(self.__defaultFolder, cfl)):

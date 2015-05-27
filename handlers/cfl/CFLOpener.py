@@ -12,7 +12,7 @@ def loadResource(f):
     compressedSize = Utils.Utils.readInt(f)
     return f.read(compressedSize)
 
-class CFLMaker(object):
+class CFLOpener(object):
 
     def __init__(self, path):
         self.__path = path

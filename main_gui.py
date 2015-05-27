@@ -1,5 +1,4 @@
-from handlers.cfl.CFLMaker import CFLMaker
-from handlers.tools import Utils
+from handlers.threads.CreateCFLThread import CreateCFLThread
 
 __author__ = 'Toyz'
 
@@ -7,9 +6,11 @@ import os
 import sys
 from PyQt4.QtGui import *
 from PyQt4 import QtCore, QtGui, uic
-from handlers.cfl.CFLOpener import CFLMaker
+from handlers.cfl.CFLOpener import CFLOpener
 from handlers.chkn.ChknFile import ChknFile
 from handlers.tools.temploader import TempLoad
+from handlers.tools import Utils
+from handlers.windows import ProgressUI
 import webbrowser
 
 loader = TempLoad("ui.cfl")
@@ -53,12 +54,16 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         self.actionNew.triggered.connect(self.createCFLFromFolder)
         # close
         self.actionQuit.triggered.connect(self.Close)
-        #help
+        # help
         self.actionSource_Code_Github.triggered.connect(self.gotogithub)
         self.actionToyz_IMVU.triggered.connect(self.gotoimvu)
 
         # table events
         self.cflFilesList.cellClicked.connect(self.slotItemClicked)
+
+        self.__progressui = ProgressUI.ProgressUI(self)
+        self.__progressui.setWindowFlags(self.__progressui.windowFlags() | QtCore.Qt.CustomizeWindowHint)
+        self.__progressui.setWindowFlags(self.__progressui.windowFlags() & ~QtCore.Qt.WindowMaximizeButtonHint)
 
     def gotogithub(self):
         webbrowser.open("https://github.com/Toyz/IMVU-CFL-Reader")
@@ -112,20 +117,18 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         if os.path.isfile(cflfile):
             os.unlink(cflfile)
 
-        cflMaker = CFLMaker(cflfile)
+        self.__progressui.setWindowTitle("Compressing Folder")
+        t = CreateCFLThread(self, cflfile, file)
+        QtCore.QObject.connect(t, QtCore.SIGNAL("setText(PyQt_PyObject)"), self.__progressui.setText)
+        QtCore.QObject.connect(t, QtCore.SIGNAL("total(PyQt_PyObject)"), self.__progressui.total)
+        QtCore.QObject.connect(t, QtCore.SIGNAL("update(PyQt_PyObject)"), self.__progressui.update)
+        QtCore.QObject.connect(t, QtCore.SIGNAL("openCFL(PyQt_PyObject)"), self.__openCFL)
+        QtCore.QObject.connect(t, QtCore.SIGNAL("sendMessage(PyQt_PyObject, PyQt_PyObject)"), self.__sendMessage)
+        t.start()
+        self.__progressui.show()
 
-        for i in os.listdir(file):
-            if os.path.isfile(os.path.join(file, i)):
-                f = open(os.path.join(file, i), "rb")
-                cflMaker.store(i, str(f.read()))
-                f.close()
-
-        cflMaker.finish()
-
-        self.__openCFL(cflfile)
-        QMessageBox.information(self,
-                                "Information",
-                                "Save CFL file saved to \n" + cflfile)
+    def __sendMessage(self, title, body):
+        QMessageBox.information(self, title, body)
 
     def extractAllFileClicked(self):
         if len(self.files) <= 0:
@@ -178,7 +181,7 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
     def __openCFL(self, cflfile):
         name = os.path.splitext(os.path.basename(cflfile))
         self.setWindowTitle("CFL Creator & Converter [" + name[0] + name[1] + "]")
-        cfl = CFLMaker(cflfile)
+        cfl = CFLOpener(cflfile)
 
         self.files = {}
         index = 0
@@ -212,6 +215,10 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         self.cflFilesList.setHorizontalHeaderLabels(labels)
         self.cflFilesList.resizeColumnsToContents()
         self.cflFilesList.resizeRowsToContents()
+
+    @staticmethod
+    def ContentLoader():
+        return loader
 
 
 if __name__ == '__main__':
