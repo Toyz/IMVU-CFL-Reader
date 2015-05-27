@@ -21,6 +21,9 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         self.files = {}
         self.setupUi(self)
         #set up images
+        self.__imageFormats = {".jpg", ".png", ".gif", ".tif"}
+        self.__imageIcon = QIcon(loader.getfile("image.png"))
+        self.__fileIcon = QIcon(loader.getfile("file.png"))
         self.actionOpen.setIcon(QIcon(loader.getfile("open.png")))
         self.actionNew.setIcon(QIcon(loader.getfile("new.png")))
         self.actionExtract.setIcon(QIcon(loader.getfile("extract.png")))
@@ -131,11 +134,21 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         index = 0
         self.cflFilesList.setRowCount(len(cfl.getEntryNames()))
         for name in cfl.getEntryNames():
-            cName = QTableWidgetItem(name)
+            fileName, fileExtension = os.path.splitext(name)
+            if len(name) >= 75:
+                newName = Utils.Utils.trunc(name, max_pos=110)
+            else:
+                newName = name
+            cName = QTableWidgetItem(newName)
             cName.setFlags(QtCore.Qt.ItemIsEnabled)
+            if fileExtension in self.__imageFormats:
+                cName.setIcon(self.__imageIcon)
+            else:
+                cName.setIcon(self.__fileIcon)
             self.cflFilesList.setItem(index, 0, cName)
 
             cSize = QTableWidgetItem(Utils.Utils.sizeof_fmt(cfl.getFileSize(name)))
+            cSize.setTextAlignment(4 | 80)
             cSize.setFlags(QtCore.Qt.ItemIsEnabled)
             self.cflFilesList.setItem(index, 1, cSize)
             index += 1
