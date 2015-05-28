@@ -1,8 +1,8 @@
-from handlers.tools.singleton import singleton
-
 __author__ = 'Toyz'
 
 from handlers.cfl.CFLOpener import CFLOpener
+from handlers.tools.singleton import singleton
+
 import tempfile
 import os
 
