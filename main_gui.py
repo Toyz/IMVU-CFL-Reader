@@ -1,4 +1,5 @@
 from handlers.threads.CreateCFLThread import CreateCFLThread
+from handlers.threads.ExtactCFLThread import ExtractCFLThread
 
 __author__ = 'Toyz'
 
@@ -139,12 +140,22 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
         if len(file) <= 0:
             return
 
-        for name, data in self.files.iteritems():
-            open(os.path.join(file, name), "wb").write(data)
+        self.__progressui.setWindowTitle("Extracting Files")
+        t = ExtractCFLThread(self, self.files, file)
+        QtCore.QObject.connect(t, QtCore.SIGNAL("setText(PyQt_PyObject)"), self.__progressui.setText)
+        QtCore.QObject.connect(t, QtCore.SIGNAL("total(PyQt_PyObject)"), self.__progressui.total)
+        QtCore.QObject.connect(t, QtCore.SIGNAL("update(PyQt_PyObject)"), self.__progressui.update)
+        QtCore.QObject.connect(t, QtCore.SIGNAL("openCFL(PyQt_PyObject)"), self.__openCFL)
+        QtCore.QObject.connect(t, QtCore.SIGNAL("sendMessage(PyQt_PyObject, PyQt_PyObject)"), self.__sendMessage)
+        t.start()
+        self.__progressui.show()
 
-        QMessageBox.information(self,
-                                "Information",
-                                "Extracted to: " + file)
+        #for name, data in self.files.iteritems():
+        #    open(os.path.join(file, name), "wb").write(data)
+
+        #QMessageBox.information(self,
+        #                        "Information",
+        #                        "Extracted to: " + file)
 
     def convertToCHKNClicked(self):
         if len(self.files) <= 0:
