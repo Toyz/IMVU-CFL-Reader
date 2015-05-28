@@ -18,7 +18,7 @@ class TempLoad:
         if self.__doesexist(os.path.join(self.__defaultFolder, cfl)):
             return os.path.join(self.__defaultFolder, cfl)
 
-        if self.__tempFiles.has_key(cfl):
+        if cfl in self.__tempFiles:
             return self.__tempFiles[cfl]
 
         data = self.__loaded.getContents(cfl)
